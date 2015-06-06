@@ -54,6 +54,7 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 /// A convenient property for you to store extra information.
 @property (nonatomic, strong) NSDictionary *userInfo;
 
+
 /**
  *  Initialize a sticker view. This is the designated initializer.
  *
@@ -63,6 +64,7 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
  *  @return The sticker view.
  */
 - (id)initWithContentView:(UIView *)contentView;
+- (id)initWithContentView:(UIView *)contentView borderImage:(UIImage*)borderImage capInsets:(UIEdgeInsets)capInsets;
 
 /**
  *  Use image to customize each editing handler.

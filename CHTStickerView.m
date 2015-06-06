@@ -55,6 +55,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @property (nonatomic, strong) UIImageView *flipImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *flipGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+
+@property (nonatomic, strong) UIImage *resizableBorderImage;
+/// For create a resizable border image
+@property (nonatomic, assign) UIEdgeInsets borderImageCapInsets;
 @end
 
 @implementation CHTStickerView
@@ -190,6 +194,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 #pragma mark - UIView
 
 - (id)initWithContentView:(UIView *)contentView {
+    return [self initWithContentView:contentView borderImage:nil capInsets:UIEdgeInsetsZero];
+}
+
+- (id)initWithContentView:(UIView *)contentView borderImage:(UIImage*)borderImage capInsets:(UIEdgeInsets)capInsets{
   if (!contentView) {
     return nil;
   }
@@ -229,10 +237,19 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
     self.minimumSize = defaultMinimumSize;
     self.outlineBorderColor = [UIColor brownColor];
+      
+      self.resizableBorderImage = [borderImage resizableImageWithCapInsets:capInsets];
+      UIGraphicsBeginImageContext(self.frame.size);
+      [self.resizableBorderImage drawInRect:self.bounds];
+      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+      
+      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
+      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
   }
   return self;
 }
-
 #pragma mark - Gesture Handlers
 
 - (void)handleMoveGesture:(UIPanGestureRecognizer *)recognizer {
@@ -284,9 +301,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     }
 
     case UIGestureRecognizerStateChanged: {
-      float angle = atan2f(touchLocation.y - center.y, touchLocation.x - center.x);
-      float angleDiff = deltaAngle - angle;
-      self.transform = CGAffineTransformMakeRotation(-angleDiff);
+        float angle = atan2f(touchLocation.y - center.y, touchLocation.x - center.x);
+        float angleDiff = deltaAngle - angle;
+        self.transform = CGAffineTransformMakeRotation(-angleDiff);
 
       CGFloat scale = CGPointGetDistance(center, touchLocation) / initialDistance;
       CGFloat minimumScale = self.minimumSize / MIN(initialBounds.size.width, initialBounds.size.height);
@@ -441,4 +458,13 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   self.transform = originalTransform;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if(object == self && ([keyPath isEqualToString:@"bounds"] || [keyPath isEqualToString:@"frame"])){
+      UIGraphicsBeginImageContext(self.frame.size);
+      [self.resizableBorderImage drawInRect:self.bounds];
+      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+    }
+}
 @end
