@@ -48,8 +48,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 @property (nonatomic, strong, readwrite) UIView *contentView;
 @property (nonatomic, strong) UIPanGestureRecognizer *moveGesture;
-@property (nonatomic, strong) UIImageView *rotateImageView;
-@property (nonatomic, strong) UIPanGestureRecognizer *rotateGesture;
+@property (nonatomic, strong) UIImageView *resizeImageView;
+@property (nonatomic, strong) UIPanGestureRecognizer *resizeGesture;
 @property (nonatomic, strong) UIImageView *closeImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *closeGesture;
 @property (nonatomic, strong) UIImageView *flipImageView;
@@ -72,12 +72,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   return _moveGesture;
 }
 
-- (UIPanGestureRecognizer *)rotateGesture {
-  if (!_rotateGesture) {
-    _rotateGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotateGesture:)];
-    _rotateGesture.delegate = self;
+- (UIPanGestureRecognizer *)resizeGesture {
+  if (!_resizeGesture) {
+    _resizeGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleResizeGesture:)];
+    _resizeGesture.delegate = self;
   }
-  return _rotateGesture;
+  return _resizeGesture;
 }
 
 - (UITapGestureRecognizer *)closeGesture {
@@ -114,15 +114,15 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   return _closeImageView;
 }
 
-- (UIImageView *)rotateImageView {
-  if (!_rotateImageView) {
-    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
-    _rotateImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _rotateImageView.backgroundColor = [UIColor clearColor];
-    _rotateImageView.userInteractionEnabled = YES;
-    [_rotateImageView addGestureRecognizer:self.rotateGesture];
+- (UIImageView *)resizeImageView {
+  if (!_resizeImageView) {
+    _resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
+    _resizeImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _resizeImageView.backgroundColor = [UIColor clearColor];
+    _resizeImageView.userInteractionEnabled = YES;
+    [_resizeImageView addGestureRecognizer:self.resizeGesture];
   }
-  return _rotateImageView;
+  return _resizeImageView;
 }
 
 - (UIImageView *)flipImageView {
@@ -182,8 +182,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (void)_setEnableResize:(BOOL)enableResize {
-  self.rotateImageView.hidden = !enableResize;
-  self.rotateImageView.userInteractionEnabled = enableResize;
+  self.resizeImageView.hidden = !enableResize;
+  self.resizeImageView.userInteractionEnabled = enableResize;
 }
 
 - (void)_setEnableFlip:(BOOL)enableFlip {
@@ -225,8 +225,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     // Setup editing handlers
     [self setPosition:CHTStickerViewPositionTopLeft forHandler:CHTStickerViewHandlerClose];
     [self addSubview:self.closeImageView];
-    [self setPosition:CHTStickerViewPositionTopRight forHandler:CHTStickerViewHandlerRotate];
-    [self addSubview:self.rotateImageView];
+    [self setPosition:CHTStickerViewPositionTopRight forHandler:CHTStickerViewHandlerResize];
+    [self addSubview:self.resizeImageView];
     [self setPosition:CHTStickerViewPositionBottomLeft forHandler:CHTStickerViewHandlerFlip];
     [self addSubview:self.flipImageView];
 
@@ -285,7 +285,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   }
 }
 
-- (void)handleRotateGesture:(UIPanGestureRecognizer *)recognizer {
+- (void)handleResizeGesture:(UIPanGestureRecognizer *)recognizer {
   CGPoint touchLocation = [recognizer locationInView:self.superview];
   CGPoint center = self.center;
 
@@ -354,7 +354,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   /**
    * ref: http://stackoverflow.com/questions/19095165/should-superviews-gesture-cancel-subviews-gesture-in-ios-7/
    *
-   * The `gestureRecognizer` would be either closeGestureRecognizer or rotateGestureRecognizer,
+   * The `gestureRecognizer` would be either closeGestureRecognizer or resizeGestureRecognizer,
    * `otherGestureRecognizer` should work only when `gestureRecognizer` is failed.
    * So, we always return YES here.
    */
@@ -369,8 +369,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       self.closeImageView.image = image;
       break;
 
-    case CHTStickerViewHandlerRotate:
-      self.rotateImageView.image = image;
+    case CHTStickerViewHandlerResize:
+      self.resizeImageView.image = image;
       break;
 
     case CHTStickerViewHandlerFlip:
@@ -389,8 +389,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       handlerView = self.closeImageView;
       break;
 
-    case CHTStickerViewHandlerRotate:
-      handlerView = self.rotateImageView;
+    case CHTStickerViewHandlerResize:
+      handlerView = self.resizeImageView;
       break;
 
     case CHTStickerViewHandlerFlip:
@@ -449,8 +449,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   CGRect handlerFrame = CGRectMake(0, 0, defaultInset * 2, defaultInset * 2);
   self.closeImageView.frame = handlerFrame;
   [self setPosition:self.closeImageView.tag forHandler:CHTStickerViewHandlerClose];
-  self.rotateImageView.frame = handlerFrame;
-  [self setPosition:self.rotateImageView.tag forHandler:CHTStickerViewHandlerRotate];
+  self.resizeImageView.frame = handlerFrame;
+  [self setPosition:self.resizeImageView.tag forHandler:CHTStickerViewHandlerResize];
   self.flipImageView.frame = handlerFrame;
   [self setPosition:self.flipImageView.tag forHandler:CHTStickerViewHandlerFlip];
 

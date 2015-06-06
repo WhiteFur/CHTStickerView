@@ -10,7 +10,7 @@
 
 typedef NS_ENUM (NSInteger, CHTStickerViewHandler) {
   CHTStickerViewHandlerClose,
-  CHTStickerViewHandlerRotate,
+  CHTStickerViewHandlerResize,
   CHTStickerViewHandlerFlip
 };
 
