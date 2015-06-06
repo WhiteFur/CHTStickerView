@@ -33,14 +33,17 @@
   UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
   testView.backgroundColor = [UIColor redColor];
 
-  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView];
+//  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView];
+  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView borderImage:[UIImage imageNamed:@"edittext_address"] capInsets:UIEdgeInsetsMake(32, 5, 10, 10)];
   stickerView.center = self.view.center;
   stickerView.delegate = self;
   stickerView.outlineBorderColor = [UIColor blueColor];
+    stickerView.enableFlip = NO;
+    stickerView.enableRotate = NO;
   [stickerView setImage:[UIImage imageNamed:@"Close"] forHandler:CHTStickerViewHandlerClose];
-  [stickerView setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerRotate];
+  [stickerView setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerResize];
   [stickerView setImage:[UIImage imageNamed:@"Flip"] forHandler:CHTStickerViewHandlerFlip];
-  [stickerView setHandlerSize:40];
+  [stickerView setHandlerSize:20];
   [self.view addSubview:stickerView];
 
   UILabel *testLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
@@ -51,7 +54,7 @@
   stickerView2.center = CGPointMake(100, 100);
   stickerView2.delegate = self;
   [stickerView2 setImage:[UIImage imageNamed:@"Close"] forHandler:CHTStickerViewHandlerClose];
-  [stickerView2 setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerRotate];
+  [stickerView2 setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerResize];
   stickerView2.showEditingHandlers = NO;
   [self.view addSubview:stickerView2];
 
