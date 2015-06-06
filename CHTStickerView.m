@@ -157,11 +157,27 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self _setEnableResize:self.enableResize];
     [self _setEnableFlip:self.enableFlip];
     self.contentView.layer.borderWidth = 2;
+      
+      UIGraphicsBeginImageContext(self.frame.size);
+      [self.resizableBorderImage drawInRect:self.bounds];
+      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+      UIGraphicsEndImageContext();
+      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
+      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+      
   } else {
+      self.backgroundColor = [UIColor clearColor];
+      if(_showEditingHandlers){
+          [self removeObserver:self forKeyPath:@"bounds"];
+          [self removeObserver:self forKeyPath:@"frame"];
+      }
+      
     [self _setEnableClose:NO];
     [self _setEnableResize:NO];
     [self _setEnableFlip:NO];
     self.contentView.layer.borderWidth = 0;
+      
   }
 }
 
@@ -240,17 +256,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     self.outlineBorderColor = [UIColor brownColor];
       
       self.resizableBorderImage = [borderImage resizableImageWithCapInsets:capInsets];
-      UIGraphicsBeginImageContext(self.frame.size);
-      [self.resizableBorderImage drawInRect:self.bounds];
-      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-      
-      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
-      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
   }
   return self;
 }
+
 #pragma mark - Gesture Handlers
 
 - (void)handleMoveGesture:(UIPanGestureRecognizer *)recognizer {
@@ -461,8 +470,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   self.transform = originalTransform;
 }
 
+//redraw backgorund image when resizing
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if(object == self && ([keyPath isEqualToString:@"bounds"] || [keyPath isEqualToString:@"frame"])){
+    if(object == self &&
+       ([keyPath isEqualToString:@"bounds"] || [keyPath isEqualToString:@"frame"])){
       UIGraphicsBeginImageContext(self.frame.size);
       [self.resizableBorderImage drawInRect:self.bounds];
       UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
