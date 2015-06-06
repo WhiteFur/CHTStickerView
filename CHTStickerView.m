@@ -233,6 +233,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     self.showEditingHandlers = YES;
     self.enableClose = YES;
     self.enableResize = YES;
+      self.enableRotate = YES;
     self.enableFlip = YES;
 
     self.minimumSize = defaultMinimumSize;
@@ -301,9 +302,11 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     }
 
     case UIGestureRecognizerStateChanged: {
-        float angle = atan2f(touchLocation.y - center.y, touchLocation.x - center.x);
-        float angleDiff = deltaAngle - angle;
-        self.transform = CGAffineTransformMakeRotation(-angleDiff);
+        if(self.enableRotate){
+            float angle = atan2f(touchLocation.y - center.y, touchLocation.x - center.x);
+            float angleDiff = deltaAngle - angle;
+            self.transform = CGAffineTransformMakeRotation(-angleDiff);
+        }
 
       CGFloat scale = CGPointGetDistance(center, touchLocation) / initialDistance;
       CGFloat minimumScale = self.minimumSize / MIN(initialBounds.size.width, initialBounds.size.height);

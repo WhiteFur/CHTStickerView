@@ -41,8 +41,10 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 @property (nonatomic, strong, readonly) UIView *contentView;
 /// Enable the close handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableClose;
-/// Enable the rotate/resize handler or not. Default value is YES.
+/// Enable the resize handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableResize;
+/// Enable the rotate on the resize handler or not. Default value is YES.
+@property (nonatomic, assign) BOOL enableRotate;
 /// Enable the flip handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableFlip;
 /// Show close and rotate/resize handlers or not. Default value is YES.
