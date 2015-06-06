@@ -143,10 +143,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   }
 }
 
-- (void)setEnableRotate:(BOOL)enableRotate {
-  _enableRotate = enableRotate;
+- (void)setEnableResize:(BOOL)enableResize {
+  _enableResize = enableResize;
   if (self.showEditingHandlers) {
-    [self _setEnableRotate:enableRotate];
+    [self _setEnableResize:enableResize];
   }
 }
 
@@ -154,12 +154,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   _showEditingHandlers = showEditingHandlers;
   if (showEditingHandlers) {
     [self _setEnableClose:self.enableClose];
-    [self _setEnableRotate:self.enableRotate];
+    [self _setEnableResize:self.enableResize];
     [self _setEnableFlip:self.enableFlip];
     self.contentView.layer.borderWidth = 2;
   } else {
     [self _setEnableClose:NO];
-    [self _setEnableRotate:NO];
+    [self _setEnableResize:NO];
     [self _setEnableFlip:NO];
     self.contentView.layer.borderWidth = 0;
   }
@@ -181,9 +181,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   self.closeImageView.userInteractionEnabled = enableClose;
 }
 
-- (void)_setEnableRotate:(BOOL)enableRotate {
-  self.rotateImageView.hidden = !enableRotate;
-  self.rotateImageView.userInteractionEnabled = enableRotate;
+- (void)_setEnableResize:(BOOL)enableResize {
+  self.rotateImageView.hidden = !enableResize;
+  self.rotateImageView.userInteractionEnabled = enableResize;
 }
 
 - (void)_setEnableFlip:(BOOL)enableFlip {
@@ -232,7 +232,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
     self.showEditingHandlers = YES;
     self.enableClose = YES;
-    self.enableRotate = YES;
+    self.enableResize = YES;
     self.enableFlip = YES;
 
     self.minimumSize = defaultMinimumSize;

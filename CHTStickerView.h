@@ -42,7 +42,7 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 /// Enable the close handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableClose;
 /// Enable the rotate/resize handler or not. Default value is YES.
-@property (nonatomic, assign) BOOL enableRotate;
+@property (nonatomic, assign) BOOL enableResize;
 /// Enable the flip handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableFlip;
 /// Show close and rotate/resize handlers or not. Default value is YES.
