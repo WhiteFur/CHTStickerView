@@ -22,6 +22,7 @@
 		5224E9EA1822479100DC7B97 /* SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5224E9E91822479100DC7B97 /* SampleTests.m */; };
 		5224E9F61822483100DC7B97 /* CHTStickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5224E9F51822483100DC7B97 /* CHTStickerView.m */; };
 		5224E9FC1822636C00DC7B97 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5224E9FB1822636B00DC7B97 /* Main_iPhone.storyboard */; };
+		98159FD21B23E6420059B2C2 /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 98159FD11B23E6420059B2C2 /* UIView+Borders.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		5224E9F41822483100DC7B97 /* CHTStickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHTStickerView.h; path = ../CHTStickerView.h; sourceTree = "<group>"; };
 		5224E9F51822483100DC7B97 /* CHTStickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHTStickerView.m; path = ../CHTStickerView.m; sourceTree = "<group>"; };
 		5224E9FB1822636B00DC7B97 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
+		98159FD01B23E6420059B2C2 /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Borders.h"; path = "../../UIView-Borders/UIView+Borders.h"; sourceTree = "<group>"; };
+		98159FD11B23E6420059B2C2 /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Borders.m"; path = "../../UIView-Borders/UIView+Borders.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +162,8 @@
 		5224E9F31822480D00DC7B97 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				98159FD01B23E6420059B2C2 /* UIView+Borders.h */,
+				98159FD11B23E6420059B2C2 /* UIView+Borders.m */,
 				5224E9F41822483100DC7B97 /* CHTStickerView.h */,
 				5224E9F51822483100DC7B97 /* CHTStickerView.m */,
 			);
@@ -267,6 +272,7 @@
 				5224E9CF1822479000DC7B97 /* CHTAppDelegate.m in Sources */,
 				5224E9F61822483100DC7B97 /* CHTStickerView.m in Sources */,
 				5224E9CB1822479000DC7B97 /* main.m in Sources */,
+				98159FD21B23E6420059B2C2 /* UIView+Borders.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
