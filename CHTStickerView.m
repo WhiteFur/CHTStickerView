@@ -104,7 +104,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (UIImageView *)closeImageView {
   if (!_closeImageView) {
-    _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
+      _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.insets.top, self.insets.top)];
     _closeImageView.contentMode = UIViewContentModeScaleAspectFit;
     _closeImageView.backgroundColor = [UIColor clearColor];
     _closeImageView.userInteractionEnabled = YES;
@@ -115,7 +115,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (UIImageView *)resizeImageView {
   if (!_resizeImageView) {
-    _resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
+     _resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.insets.top, self.insets.top)];
     _resizeImageView.contentMode = UIViewContentModeScaleAspectFit;
     _resizeImageView.backgroundColor = [UIColor clearColor];
     _resizeImageView.userInteractionEnabled = YES;
@@ -415,12 +415,25 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
   switch (position) {
     case CHTStickerViewPositionTopLeft:
-      handlerView.center = origin;
+          if(self.topBorder){
+              handlerView.frame = CGRectMake(0, 0,
+                                             CGRectGetWidth(handlerView.frame),
+                                             CGRectGetHeight(handlerView.frame));
+          }
+          else{
+              handlerView.center = origin;
+          }
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
       break;
 
     case CHTStickerViewPositionTopRight:
-      handlerView.center = CGPointMake(origin.x + size.width, origin.y);
+          if(self.topBorder){
+              handlerView.center = CGPointMake(CGRectGetWidth(self.topBorder.frame) - CGRectGetWidth(handlerView.frame) / 2,
+                                               CGRectGetHeight(handlerView.frame) / 2);
+          }
+          else{
+              handlerView.center = CGPointMake(origin.x + size.width, origin.y);
+          }
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
       break;
 
