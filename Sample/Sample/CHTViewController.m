@@ -33,17 +33,14 @@
   UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
   testView.backgroundColor = [UIColor redColor];
 
-//  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView];
     CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView outlineBorderColor:[UIColor colorWithRed:0 green:194/255.0 blue:184/255.0 alpha:1]];
   stickerView.center = self.view.center;
   stickerView.delegate = self;
-  stickerView.outlineBorderColor = [UIColor blueColor];
     stickerView.enableFlip = NO;
     stickerView.enableRotate = NO;
   [stickerView setImage:[UIImage imageNamed:@"Close"] forHandler:CHTStickerViewHandlerClose];
   [stickerView setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerResize];
   [stickerView setImage:[UIImage imageNamed:@"Flip"] forHandler:CHTStickerViewHandlerFlip];
-  [stickerView setHandlerSize:20];
   [self.view addSubview:stickerView];
     
 

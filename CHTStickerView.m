@@ -55,6 +55,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @property (nonatomic, strong) UIImageView *flipImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *flipGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+
+//insets between self and contenView
+@property (nonatomic) UIEdgeInsets insets;
 @end
 
 @implementation CHTStickerView
@@ -153,31 +156,16 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self _setEnableResize:self.enableResize];
     [self _setEnableFlip:self.enableFlip];
       
-    self.contentView.layer.borderWidth = 2;
-      if(!self.topBorder){
-          [self addTopBorderWithHeight:20 andColor:self.outlineBorderColor];
-      }
-      
-//      UIGraphicsBeginImageContext(self.frame.size);
-//      [self.resizableBorderImage drawInRect:self.bounds];
-//      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-//      UIGraphicsEndImageContext();
-//      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-//      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
-//      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+    self.layer.borderWidth = self.insets.left;
+          self.topBorder.hidden = NO;
       
   } else {
       self.backgroundColor = [UIColor clearColor];
-//      if(_showEditingHandlers){
-//          [self removeObserver:self forKeyPath:@"bounds"];
-//          [self removeObserver:self forKeyPath:@"frame"];
-//      }
-      
     [self _setEnableClose:NO];
     [self _setEnableResize:NO];
     [self _setEnableFlip:NO];
-    self.contentView.layer.borderWidth = 0;
-      
+    self.layer.borderWidth = 0;
+      self.topBorder.hidden = YES;
   }
 }
 
@@ -188,7 +176,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (void)setOutlineBorderColor:(UIColor *)outlineBorderColor {
   _outlineBorderColor = outlineBorderColor;
-  self.contentView.layer.borderColor = _outlineBorderColor.CGColor;
+//  self.contentView.layer.borderColor = _outlineBorderColor.CGColor;
+    self.layer.borderColor = [outlineBorderColor CGColor];
 }
 
 #pragma mark - Private Methods
@@ -214,26 +203,34 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     return [self initWithContentView:contentView outlineBorderColor:[UIColor clearColor]];
 }
 
-- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)boarderColor{
+- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)borderColor{
   if (!contentView) {
     return nil;
   }
     
-    self.outlineBorderColor = boarderColor;
+    UIEdgeInsets insets = UIEdgeInsetsMake(20, 2, 2, 2);
 
-  defaultInset = 11;
+  defaultInset = 20;
   defaultMinimumSize = 4 * defaultInset;
 
   CGRect frame = contentView.frame;
-  frame = CGRectMake(0, 0, frame.size.width + defaultInset * 2, frame.size.height + defaultInset * 2);
+  frame = CGRectMake(0, 0,
+                     frame.size.width + insets.left + insets.right,
+                     frame.size.height + insets.top + insets.bottom);
+    
   if (self = [super initWithFrame:frame]) {
-    self.backgroundColor = [UIColor clearColor];
+    self.outlineBorderColor = borderColor;
+      self.insets = insets;
+      [self addTopBorderWithHeight:self.insets.top andColor:borderColor];
+      
     [self addGestureRecognizer:self.moveGesture];
     [self addGestureRecognizer:self.tapGesture];
 
     // Setup content view
     self.contentView = contentView;
     self.contentView.center = CGRectGetCenter(self.bounds);
+      CGRect originFrame = self.contentView.frame;
+      self.contentView.frame = CGRectMake(insets.left, insets.top, CGRectGetWidth(originFrame), CGRectGetHeight(originFrame));
     self.contentView.userInteractionEnabled = NO;
     self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     if ([self.contentView.layer respondsToSelector:@selector(setAllowsEdgeAntialiasing:)]) {

@@ -67,7 +67,7 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
  *  @return The sticker view.
  */
 - (id)initWithContentView:(UIView *)contentView;
-- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)boarderColor;
+- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)borderColor;
 
 /**
  *  Use image to customize each editing handler.

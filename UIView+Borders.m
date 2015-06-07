@@ -23,7 +23,7 @@ const char TOP_BORDER_STRING_KEY;
 - (void)addCornerOnTopBorder{
     CAShapeLayer * maskLayer = [CAShapeLayer layer];
     maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){5, 5}].CGPath;
-    self.topBorder.mask = maskLayer;
+    self.layer.mask = maskLayer;
 }
 ////
 
@@ -239,7 +239,8 @@ const char TOP_BORDER_STRING_KEY;
     [border setBackgroundColor:color.CGColor];
     border.actions = @{@"bounds": [NSNull null],
                        @"position": [NSNull null],
-                       @"mask": [NSNull null]};
+                       @"mask": [NSNull null],
+                       @"hidden": [NSNull null]};
     self.topBorder = border;
     
     [self addCornerOnTopBorder];
