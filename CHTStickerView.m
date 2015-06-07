@@ -55,10 +55,6 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @property (nonatomic, strong) UIImageView *flipImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *flipGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
-
-@property (nonatomic, strong) UIImage *resizableBorderImage;
-/// For create a resizable border image
-@property (nonatomic, assign) UIEdgeInsets borderImageCapInsets;
 @end
 
 @implementation CHTStickerView
@@ -156,22 +152,26 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self _setEnableClose:self.enableClose];
     [self _setEnableResize:self.enableResize];
     [self _setEnableFlip:self.enableFlip];
-    self.contentView.layer.borderWidth = 2;
       
-      UIGraphicsBeginImageContext(self.frame.size);
-      [self.resizableBorderImage drawInRect:self.bounds];
-      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
-      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
+    self.contentView.layer.borderWidth = 2;
+      if(!self.topBorder){
+          [self addTopBorderWithHeight:20 andColor:self.outlineBorderColor];
+      }
+      
+//      UIGraphicsBeginImageContext(self.frame.size);
+//      [self.resizableBorderImage drawInRect:self.bounds];
+//      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+//      UIGraphicsEndImageContext();
+//      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
+//      [self addObserver:self forKeyPath:@"bounds" options:0 context:NULL];
+//      [self addObserver:self forKeyPath:@"frame" options:0 context:NULL];
       
   } else {
       self.backgroundColor = [UIColor clearColor];
-      if(_showEditingHandlers){
-          [self removeObserver:self forKeyPath:@"bounds"];
-          [self removeObserver:self forKeyPath:@"frame"];
-      }
+//      if(_showEditingHandlers){
+//          [self removeObserver:self forKeyPath:@"bounds"];
+//          [self removeObserver:self forKeyPath:@"frame"];
+//      }
       
     [self _setEnableClose:NO];
     [self _setEnableResize:NO];
@@ -180,6 +180,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       
   }
 }
+
 
 - (void)setMinimumSize:(NSInteger)minimumSize {
   _minimumSize = MAX(minimumSize, defaultMinimumSize);
@@ -210,13 +211,15 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 #pragma mark - UIView
 
 - (id)initWithContentView:(UIView *)contentView {
-    return [self initWithContentView:contentView borderImage:nil capInsets:UIEdgeInsetsZero];
+    return [self initWithContentView:contentView outlineBorderColor:[UIColor clearColor]];
 }
 
-- (id)initWithContentView:(UIView *)contentView borderImage:(UIImage*)borderImage capInsets:(UIEdgeInsets)capInsets{
+- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)boarderColor{
   if (!contentView) {
     return nil;
   }
+    
+    self.outlineBorderColor = boarderColor;
 
   defaultInset = 11;
   defaultMinimumSize = 4 * defaultInset;
@@ -253,13 +256,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     self.enableFlip = YES;
 
     self.minimumSize = defaultMinimumSize;
-    self.outlineBorderColor = [UIColor brownColor];
-      
-      self.resizableBorderImage = [borderImage resizableImageWithCapInsets:capInsets];
   }
   return self;
 }
-
 #pragma mark - Gesture Handlers
 
 - (void)handleMoveGesture:(UIPanGestureRecognizer *)recognizer {
@@ -322,6 +321,13 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       scale = MAX(scale, minimumScale);
       CGRect scaledBounds = CGRectScale(initialBounds, scale, scale);
       self.bounds = scaledBounds;
+        
+        //resize top border
+    CGRect bounds = self.topBorder.bounds;
+    self.topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(scaledBounds), CGRectGetHeight(bounds));
+        //reize the mask(made of BezierPath) of the top border
+        [self addCornerOnTopBorder];
+        
       [self setNeedsDisplay];
 
       if ([self.delegate respondsToSelector:@selector(stickerViewDidChangeRotating:)]) {
@@ -470,15 +476,4 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   self.transform = originalTransform;
 }
 
-//redraw backgorund image when resizing
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if(object == self &&
-       ([keyPath isEqualToString:@"bounds"] || [keyPath isEqualToString:@"frame"])){
-      UIGraphicsBeginImageContext(self.frame.size);
-      [self.resizableBorderImage drawInRect:self.bounds];
-      UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-      UIGraphicsEndImageContext();
-      self.backgroundColor = [UIColor colorWithPatternImage:backgroundImage];
-    }
-}
 @end

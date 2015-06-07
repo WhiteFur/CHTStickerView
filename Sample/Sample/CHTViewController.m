@@ -34,7 +34,7 @@
   testView.backgroundColor = [UIColor redColor];
 
 //  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView];
-  CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView borderImage:[UIImage imageNamed:@"edittext_address"] capInsets:UIEdgeInsetsMake(32, 5, 10, 10)];
+    CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView outlineBorderColor:[UIColor colorWithRed:0 green:194/255.0 blue:184/255.0 alpha:1]];
   stickerView.center = self.view.center;
   stickerView.delegate = self;
   stickerView.outlineBorderColor = [UIColor blueColor];
@@ -45,6 +45,7 @@
   [stickerView setImage:[UIImage imageNamed:@"Flip"] forHandler:CHTStickerViewHandlerFlip];
   [stickerView setHandlerSize:20];
   [self.view addSubview:stickerView];
+    
 
   UILabel *testLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
   testLabel.text = @"Test Label";

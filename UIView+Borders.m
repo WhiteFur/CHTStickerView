@@ -6,9 +6,26 @@
 //
 
 #import "UIView+Borders.h"
-
+@import ObjectiveC;
 
 @implementation UIView(Borders)
+
+const char TOP_BORDER_STRING_KEY;
+////property
+- (void)setTopBorder:(CALayer *)topBorder{
+    objc_setAssociatedObject(self, &TOP_BORDER_STRING_KEY, topBorder, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (CALayer*)topBorder{
+    return (CALayer*)objc_getAssociatedObject(self, &TOP_BORDER_STRING_KEY);
+}
+
+- (void)addCornerOnTopBorder{
+    CAShapeLayer * maskLayer = [CAShapeLayer layer];
+    maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){5, 5}].CGPath;
+    self.topBorder.mask = maskLayer;
+}
+////
 
 //////////
 // Top
@@ -220,6 +237,12 @@
     CALayer *border = [CALayer layer];
     border.frame = frame;
     [border setBackgroundColor:color.CGColor];
+    border.actions = @{@"bounds": [NSNull null],
+                       @"position": [NSNull null],
+                       @"mask": [NSNull null]};
+    self.topBorder = border;
+    
+    [self addCornerOnTopBorder];
     [self.layer addSublayer:border];
 }
 

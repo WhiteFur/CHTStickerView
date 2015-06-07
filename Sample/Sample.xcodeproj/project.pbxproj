@@ -57,8 +57,8 @@
 		5224E9F41822483100DC7B97 /* CHTStickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHTStickerView.h; path = ../CHTStickerView.h; sourceTree = "<group>"; };
 		5224E9F51822483100DC7B97 /* CHTStickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHTStickerView.m; path = ../CHTStickerView.m; sourceTree = "<group>"; };
 		5224E9FB1822636B00DC7B97 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
-		98159FD01B23E6420059B2C2 /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Borders.h"; path = "../../UIView-Borders/UIView+Borders.h"; sourceTree = "<group>"; };
-		98159FD11B23E6420059B2C2 /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Borders.m"; path = "../../UIView-Borders/UIView+Borders.m"; sourceTree = "<group>"; };
+		98159FD01B23E6420059B2C2 /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Borders.h"; path = "../UIView+Borders.h"; sourceTree = "<group>"; };
+		98159FD11B23E6420059B2C2 /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Borders.m"; path = "../UIView+Borders.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

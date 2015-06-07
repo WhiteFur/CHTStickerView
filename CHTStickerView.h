@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIView+Borders.h"
 
 typedef NS_ENUM (NSInteger, CHTStickerViewHandler) {
   CHTStickerViewHandlerClose,
@@ -66,7 +67,7 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
  *  @return The sticker view.
  */
 - (id)initWithContentView:(UIView *)contentView;
-- (id)initWithContentView:(UIView *)contentView borderImage:(UIImage*)borderImage capInsets:(UIEdgeInsets)capInsets;
+- (id)initWithContentView:(UIView *)contentView outlineBorderColor:(UIColor*)boarderColor;
 
 /**
  *  Use image to customize each editing handler.
