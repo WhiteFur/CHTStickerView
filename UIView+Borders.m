@@ -14,6 +14,7 @@ const char TOP_BORDER_STRING_KEY;
 ////property
 - (void)setTopBorder:(CALayer *)topBorder{
     objc_setAssociatedObject(self, &TOP_BORDER_STRING_KEY, topBorder, OBJC_ASSOCIATION_RETAIN);
+    [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (CALayer*)topBorder{
@@ -26,6 +27,12 @@ const char TOP_BORDER_STRING_KEY;
     self.layer.mask = maskLayer;
 }
 ////
+
+#pragma mark - observer
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    NSValue *frame = change[NSKeyValueChangeNewKey];
+    self.topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(frame.CGRectValue), CGRectGetHeight(self.topBorder.frame));
+}
 
 //////////
 // Top
