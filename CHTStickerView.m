@@ -149,6 +149,11 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   }
 }
 
+- (void)setEnableMove:(BOOL)enableMove{
+    _enableMove = enableMove;
+    self.moveGesture.enabled = enableMove;
+}
+
 - (void)setShowEditingHandlers:(BOOL)showEditingHandlers {
   _showEditingHandlers = showEditingHandlers;
   if (showEditingHandlers) {
@@ -223,7 +228,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       self.insets = insets;
       [self addTopBorderWithHeight:self.insets.top andColor:borderColor];
       
-    [self addGestureRecognizer:self.moveGesture];
+      [self addGestureRecognizer:self.moveGesture];
     [self addGestureRecognizer:self.tapGesture];
 
     // Setup content view
@@ -246,11 +251,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self setPosition:CHTStickerViewPositionBottomLeft forHandler:CHTStickerViewHandlerFlip];
     [self addSubview:self.flipImageView];
 
-    self.showEditingHandlers = YES;
-    self.enableClose = YES;
-    self.enableResize = YES;
+      self.showEditingHandlers = YES;
+      self.enableClose = YES;
+      self.enableResize = YES;
       self.enableRotate = YES;
-    self.enableFlip = YES;
+      self.enableFlip = YES;
+      self.enableMove = YES;
 
     self.minimumSize = defaultMinimumSize;
   }
