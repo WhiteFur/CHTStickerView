@@ -259,6 +259,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       self.enableMove = YES;
 
     self.minimumSize = defaultMinimumSize;
+      
+      [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
   }
   return self;
 }
@@ -490,6 +492,16 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
   self.center = originalCenter;
   self.transform = originalTransform;
+}
+
+- (void)dealloc{
+    [self removeObserver:self forKeyPath:@"frame"];
+}
+
+#pragma mark - observer
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    NSValue *frame = change[NSKeyValueChangeNewKey];
+    self.topBorder.frame = CGRectMake(0, 0, CGRectGetWidth(frame.CGRectValue), CGRectGetHeight(self.topBorder.frame));
 }
 
 @end
