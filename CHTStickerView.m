@@ -58,6 +58,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 //insets between self and contenView
 @property (nonatomic) UIEdgeInsets insets;
+
+@property (nonatomic, strong) UIView *topBorder;
 @end
 
 @implementation CHTStickerView
@@ -162,7 +164,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self _setEnableFlip:self.enableFlip];
       
     self.layer.borderWidth = self.insets.left;
-          self.topBorder.hidden = NO;
+      self.topBorder.hidden = NO;
       
   } else {
       self.backgroundColor = [UIColor clearColor];
@@ -226,7 +228,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   if (self = [super initWithFrame:frame]) {
     self.outlineBorderColor = borderColor;
       self.insets = insets;
-      [self addTopBorderWithHeight:self.insets.top andColor:borderColor];
+      
+      self.topBorder = [self createViewBackedTopBorderWithHeight:self.insets.top andColor:borderColor];
+      [self addSubview:self.topBorder];
       
       [self addGestureRecognizer:self.moveGesture];
     [self addGestureRecognizer:self.tapGesture];

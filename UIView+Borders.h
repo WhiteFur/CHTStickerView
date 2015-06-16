@@ -9,7 +9,7 @@
 
 @interface UIView (Borders)
 
-@property (nonatomic) CALayer *topBorder;
+//@property (nonatomic) CALayer *topBorder;
 
 - (void)addCornerOnTopBorder;
 /* Create your borders and assign them to a property on a view when you can via the create methods when possible. Otherwise you might end up with multiple borders being created.
