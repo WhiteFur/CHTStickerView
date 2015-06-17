@@ -158,6 +158,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (void)setShowEditingHandlers:(BOOL)showEditingHandlers {
   _showEditingHandlers = showEditingHandlers;
+    self.showContentViewBorder = NO;
   if (showEditingHandlers) {
     [self _setEnableClose:self.enableClose];
     [self _setEnableResize:self.enableResize];
@@ -179,6 +180,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 - (void)setShowContentViewBorder:(BOOL)showContentViewBorder{
     if(showContentViewBorder){
         self.contentView.layer.borderWidth = self.insets.left;
+        self.contentView.layer.borderColor = self.layer.borderColor;
+        self.contentView.layer.cornerRadius = self.layer.cornerRadius;
     }
     else{
         self.contentView.layer.borderWidth = 0;
