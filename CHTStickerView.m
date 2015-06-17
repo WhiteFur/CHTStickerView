@@ -158,12 +158,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (void)setShowEditingHandlers:(BOOL)showEditingHandlers {
   _showEditingHandlers = showEditingHandlers;
-    self.showBorder = showEditingHandlers;
   if (showEditingHandlers) {
     [self _setEnableClose:self.enableClose];
     [self _setEnableResize:self.enableResize];
     [self _setEnableFlip:self.enableFlip];
       
+        self.layer.borderWidth = self.insets.left;
       self.topBorder.hidden = NO;
       
   } else {
@@ -171,16 +171,17 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self _setEnableClose:NO];
     [self _setEnableResize:NO];
     [self _setEnableFlip:NO];
+        self.layer.borderWidth = 0;
       self.topBorder.hidden = YES;
   }
 }
 
-- (void)setShowBorder:(BOOL)showBorder{
-    if(showBorder){
-        self.layer.borderWidth = self.insets.left;
+- (void)setShowContentViewBorder:(BOOL)showContentViewBorder{
+    if(showContentViewBorder){
+        self.contentView.layer.borderWidth = self.insets.left;
     }
     else{
-        self.layer.borderWidth = 0;
+        self.contentView.layer.borderWidth = 0;
     }
 }
 
