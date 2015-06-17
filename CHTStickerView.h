@@ -53,6 +53,8 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 /// Show close and rotate/resize handlers or not. Default value is YES.
 @property (nonatomic, assign) BOOL showEditingHandlers;
 /// Minimum value for the shorter side while resizing. Default value will be used if not set.
+
+@property (nonatomic, assign) BOOL showBorder;
 @property (nonatomic, assign) NSInteger minimumSize;
 /// Color of the outline border. Default: brown color.
 @property (nonatomic, strong) UIColor *outlineBorderColor;
