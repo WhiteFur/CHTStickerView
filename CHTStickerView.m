@@ -276,6 +276,17 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
     self.minimumSize = defaultMinimumSize;
       
+      //if the CHTStickerView is less then the minimum size, resize it to the minimsize
+      CGRect bounds = self.bounds;
+      CGFloat width = CGRectGetWidth(bounds);
+      CGFloat height = CGRectGetHeight(bounds);
+      if(self.minimumSize > width ||
+         self.minimumSize > height){
+          CGFloat minimumScale = self.minimumSize / MIN(width, height);
+          CGRect scaledBounds = CGRectScale(bounds, minimumScale, minimumScale);
+          self.bounds = scaledBounds;
+      }
+      
       [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
   }
   return self;
