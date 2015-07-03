@@ -29,9 +29,9 @@ typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
 - (void)stickerViewDidBeginMoving:(CHTStickerView *)stickerView;
 - (void)stickerViewDidChangeMoving:(CHTStickerView *)stickerView;
 - (void)stickerViewDidEndMoving:(CHTStickerView *)stickerView;
-- (void)stickerViewDidBeginRotating:(CHTStickerView *)stickerView;
-- (void)stickerViewDidChangeRotating:(CHTStickerView *)stickerView;
-- (void)stickerViewDidEndRotating:(CHTStickerView *)stickerView;
+- (void)stickerViewDidBeginResizing:(CHTStickerView *)stickerView;
+- (void)stickerViewDidChangeResizing:(CHTStickerView *)stickerView;
+- (void)stickerViewDidEndResizing:(CHTStickerView *)stickerView;
 - (void)stickerViewDidClose:(CHTStickerView *)stickerView;
 - (void)stickerViewDidTap:(CHTStickerView *)stickerView;
 @end

@@ -324,8 +324,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       deltaAngle = atan2f(touchLocation.y - center.y, touchLocation.x - center.x) - CGAffineTransformGetAngle(self.transform);
       initialBounds = self.bounds;
       initialDistance = CGPointGetDistance(center, touchLocation);
-      if ([self.delegate respondsToSelector:@selector(stickerViewDidBeginRotating:)]) {
-        [self.delegate stickerViewDidBeginRotating:self];
+      if ([self.delegate respondsToSelector:@selector(stickerViewDidBeginResizing:)]) {
+        [self.delegate stickerViewDidBeginResizing:self];
       }
       break;
     }
@@ -351,15 +351,15 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
         
       [self setNeedsDisplay];
 
-      if ([self.delegate respondsToSelector:@selector(stickerViewDidChangeRotating:)]) {
-        [self.delegate stickerViewDidChangeRotating:self];
+      if ([self.delegate respondsToSelector:@selector(stickerViewDidChangeResizing:)]) {
+        [self.delegate stickerViewDidChangeResizing:self];
       }
       break;
     }
 
     case UIGestureRecognizerStateEnded:
-      if ([self.delegate respondsToSelector:@selector(stickerViewDidEndRotating:)]) {
-        [self.delegate stickerViewDidEndRotating:self];
+      if ([self.delegate respondsToSelector:@selector(stickerViewDidEndResizing:)]) {
+        [self.delegate stickerViewDidEndResizing:self];
       }
       break;
 
